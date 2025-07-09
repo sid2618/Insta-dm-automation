@@ -30,8 +30,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = [ '*','https://insta-dm-automation.onrender.com']
-CSRF_TRUSTED_ORIGINS = ['https://insta-dm-automation.onrender.com']
+ALLOWED_HOSTS = [ 'https://insta-dm-automation-kjkx.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://insta-dm-automation-kjkx.onrender.com']
 
 
 
@@ -143,10 +143,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # settings.py
 FB_APP_ID = os.getenv("FB_APP_ID")
 FB_APP_SECRET= os.getenv("FB_APP_SECRET")
-FB_REDIRECT_URI = 'https://insta-dm-automation.onrender.com/facebook/callback/'
+FB_REDIRECT_URI = 'https://insta-dm-automation-kjkx.onrender.com/facebook/callback/'
 
 
-CSRF_TRUSTED_ORIGINS = ["https://insta-dm-automation.onrender.com"]
+CSRF_TRUSTED_ORIGINS = ["https://insta-dm-automation-kjkx.onrender.com"]
 
 
 LOGIN_URL = '/login/'
