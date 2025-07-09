@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: insta-dm-automation
+    env: python
+    buildCommand: ""
+    startCommand: "gunicorn Insta.wsgi:application"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: Insta.settings
+      - key: SECRET_KEY
+        value: "django-insecure-t9g!w5&oum@-lmcl%(k_vw^(g6$lvl+q-m7%k0im9gb%@^n8bh"
+      - key: DEBUG
+        value: False
