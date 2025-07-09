@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Conversations - {{ page_name }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background-color: #f4f6f8;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 2rem;
+    }
+
+    .conversation-list {
+      list-style: none;
+      padding: 0;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .conversation-item {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease;
+    }
+
+    .conversation-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .conversation-link {
+      text-decoration: none;
+      color: #333;
+      display: block;
+    }
+
+    .conversation-link strong {
+      color: #2c3e50;
+    }
+
+    .conversation-meta {
+      font-size: 0.95rem;
+      color: #666;
+      margin-top: 0.2rem;
+    }
+
+    .empty-msg {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📩 Conversations for {{ page_name }}</h2>
+
+  <ul class="conversation-list">
+    {% for sender in senders %}
+      <li class="conversation-item">
+        <a class="conversation-link" href="{% url 'conversation_view' sender.ig_user_id page_id %}">
+          🧑 Conversation with <strong>{{ sender.username|default:"Unknown User" }}</strong>
+          <div class="conversation-meta">🕒 {{ sender.last_message_time|date:"Y-m-d H:i" }}</div>
+          <div class="conversation-meta">💬 {{ sender.last_message_text|default:"No message" }}</div>
+        </a>
+      </li>
+    {% empty %}
+      <li class="empty-msg">No conversations found.</li>
+    {% endfor %}
+  </ul>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

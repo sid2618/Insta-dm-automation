@@ -1,0 +1,311 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Instagram Messages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background-color: #f4f4f4;
+        }
+
+        .chat-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .message {
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 80%;
+            word-wrap: break-word;
+            position: relative;
+        }
+
+        .sent {
+            background-color: #dcf8c6;
+            align-self: flex-end;
+            text-align: right;
+        }
+
+        .received {
+            background-color: #ffffff;
+            align-self: flex-start;
+            text-align: left;
+        }
+
+        .meta {
+            font-size: 0.8rem;
+            color: gray;
+            margin-top: 5px;
+        }
+
+        #replyForm {
+            display: none;
+            margin-top: 2rem;
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 0.6rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 0.5rem 1.2rem;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #toggleReplyBox {
+            margin-top: 1rem;
+        }
+
+        .pagination {
+            margin: 2rem auto;
+            text-align: center;
+        }
+
+        .pagination a,
+        .pagination span {
+            margin: 0 6px;
+            padding: 6px 12px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        .pagination span.current {
+            background-color: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-wrapper">
+        <h2>Conversation with {{ sender.username|default:"Unknown User" }}</h2>
+
+        <button id="toggleReplyBox">Send a Reply</button>
+
+        <div id="replyForm">
+            <h3>Send a Reply</h3>
+            <form id="dmForm" method="POST" action="{% url 'send_dm_view' ig_user_id page_id %}">
+                {% csrf_token %}
+                <textarea name="message" rows="3" placeholder="Type your message..." required></textarea>
+                <br>
+                <button type="submit" id="sendBtn">Send</button>
+                <span id="spinner" style="display: none; margin-left: 10px;">⏳ Sending...</span>
+            </form>
+        </div>
+
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="message {% if msg.direction == 'outbound' %}sent{% else %}received{% endif %}">
+                    <p><strong>{{ msg.sender_username|default:"You" }}</strong>:</p>
+                    <p>{{ msg.message_text }}</p>
+                    <div class="meta">{{ msg.created_time|date:"j F, Y – g:i A" }} IST</div>
+                </div>
+            {% endfor %}
+
+            <div class="pagination">
+                {% if messages.has_previous %}
+                    <a href="?page={{ messages.previous_page_number }}">← Previous</a>
+                {% endif %}
+
+                <span class="current">Page {{ messages.number }} of {{ messages.paginator.num_pages }}</span>
+
+                {% if messages.has_next %}
+                    <a href="?page={{ messages.next_page_number }}">Next →</a>
+                {% endif %}
+            </div>
+
+        {% else %}
+            <p>No messages found.</p>
+        {% endif %}
+    </div>
+
+    <script>
+        document.getElementById("toggleReplyBox").addEventListener("click", function () {
+            document.getElementById("replyForm").style.display = "block";
+            this.style.display = "none";
+        });
+        document.getElementById("dmForm").addEventListener("submit", function () {
+            document.getElementById("sendBtn").disabled = true;
+            document.getElementById("spinner").style.display = "inline";
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+
+
+
+
+
+
+{% comment %} above code can be used if pagination needs to be applied {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Instagram Messages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            background-color: #f4f4f4;
+        }
+
+        .chat-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .message {
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            max-width: 80%;
+            word-wrap: break-word;
+            position: relative;
+        }
+
+        .sent {
+            background-color: #dcf8c6;
+            align-self: flex-end;
+            text-align: right;
+        }
+
+        .received {
+            background-color: #ffffff;
+            align-self: flex-start;
+            text-align: left;
+        }
+
+        .meta {
+            font-size: 0.8rem;
+            color: gray;
+            margin-top: 5px;
+        }
+
+        #replyForm {
+            display: none;
+            margin-top: 2rem;
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 0.6rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 0.5rem 1.2rem;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #toggleReplyBox {
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-wrapper">
+        <h2>Conversation with {{ sender.username|default:"Unknown User" }}</h2>
+
+        
+        <button id="toggleReplyBox">Send a Reply</button>
+
+        
+        <div id="replyForm">
+            <h3>Send a Reply</h3>
+            <form id="dmForm" method="POST" action="{% url 'send_dm_view' ig_user_id page_id %}">
+                {% csrf_token %}
+                <textarea name="message" rows="3" placeholder="Type your message..." required></textarea>
+                <br>
+                <button type="submit" id="sendBtn">Send</button>
+                <span id="spinner" style="display: none; margin-left: 10px;">⏳ Sending...</span>
+            </form>
+        </div>
+
+        
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="message {% if msg.direction == 'outbound' %}sent{% else %}received{% endif %}">
+                    <p><strong>{{ msg.sender_username|default:"You" }}</strong>:</p>
+                    <p>{{ msg.message_text }}</p>
+                    <div class="meta">{{ msg.created_time|date:"j F, Y – g:i A" }} IST</div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No messages found.</p>
+        {% endif %}
+    </div>
+
+    
+    <script>
+        document.getElementById("toggleReplyBox").addEventListener("click", function () {
+            document.getElementById("replyForm").style.display = "block";
+            this.style.display = "none";
+        });
+        document.getElementById("dmForm").addEventListener("submit", function () {
+            document.getElementById("sendBtn").disabled = true;
+            document.getElementById("spinner").style.display = "inline";
+        });
+    </script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+ 

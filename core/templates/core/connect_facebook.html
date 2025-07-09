@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Connect Your Facebook Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    .center-wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      background-color: #4267B2;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #loader {
+      display: none;
+      margin: 20px auto;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #4267B2;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .toast {
+      visibility: hidden;
+      min-width: 250px;
+      background-color: #4BB543;
+      color: white;
+      text-align: center;
+      border-radius: 5px;
+      padding: 16px;
+      position: fixed;
+      z-index: 1;
+      top: 20px;
+      right: 20px;
+      font-size: 16px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .toast.show {
+      visibility: visible;
+      animation: fadein 0.5s, fadeout 0.5s 3s;
+    }
+
+    @keyframes fadein {
+      from { top: 0; opacity: 0; }
+      to { top: 20px; opacity: 1; }
+    }
+
+    @keyframes fadeout {
+      from { top: 20px; opacity: 1; }
+      to { top: 0; opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="center-wrapper">
+    <h1>Connect Your Facebook Page</h1>
+    <button class="btn" id="loginBtn">Connect via Facebook</button>
+    <div id="loader"></div>
+    <div id="toast" class="toast">Login successful!</div>
+  </div>
+
+  <script>
+    const loginBtn = document.getElementById("loginBtn");
+    const loader = document.getElementById("loader");
+    const toast = document.getElementById("toast");
+
+    loginBtn.addEventListener("click", async () => {
+      loader.style.display = "inline-block";
+
+      try {
+        const response = await fetch("/facebook/login-url/");
+        const data = await response.json();
+
+        if (data.facebook_login_url) {
+          window.location.href = data.facebook_login_url;
+        } else {
+          loader.style.display = "none";
+          showToast("Failed to retrieve login URL.", true);
+        }
+      } catch (err) {
+        loader.style.display = "none";
+        showToast("Error occurred: " + err.message, true);
+      }
+    });
+
+    function showToast(message, isError = false) {
+      toast.textContent = message;
+      toast.style.backgroundColor = isError ? "#e74c3c" : "#4BB543"; // red or green
+      toast.className = "toast show";
+      setTimeout(() => { toast.className = "toast"; }, 4000);
+    }
+
+    // Optional: Check for success query param on redirect
+    if (window.location.search.includes("success=true")) {
+      showToast("Login successful!");
+    }
+  </script>
+
+</body>
+</html>
