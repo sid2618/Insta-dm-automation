@@ -16,7 +16,7 @@ class FacebookPage(models.Model):
 
 # details of people who message our instagram business account
 class InstagramSenderDetails(models.Model):
-    ig_user_id = models.CharField(max_length=100, unique=True)
+    ig_user_id = models.CharField(max_length=255, unique=True)
     username = models.CharField(max_length=255, null=True, blank=True)
     conversation_id = models.CharField(max_length=255)
     page = models.ForeignKey(FacebookPage, on_delete=models.CASCADE)
@@ -32,10 +32,10 @@ class InstagramSenderDetails(models.Model):
 # sender's messages
 
 class InstagramMessage(models.Model):
-    message_id = models.CharField(max_length=100, unique=True)
-    conversation_id = models.CharField(max_length=100)
-    sender_id = models.CharField(max_length=100)
-    sender_username = models.CharField(max_length=150, blank=True, null=True)
+    message_id = models.CharField(max_length=255, unique=True)
+    conversation_id = models.CharField(max_length=255)
+    sender_id = models.CharField(max_length=255)
+    sender_username = models.CharField(max_length=255, blank=True, null=True)
     message_text = models.TextField(blank=True, null=True)
     created_time = models.DateTimeField()
     direction = models.CharField(max_length=10, choices=[('inbound', 'Inbound'), ('outbound', 'Outbound')])
