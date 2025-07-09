@@ -30,7 +30,12 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = [ 'https://insta-dm-automation-kjkx.onrender.com']
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'https://insta-dm-automation-kjkx.onrender.com',  # replace with actual render domain if known
+]
+
 CSRF_TRUSTED_ORIGINS = ['https://insta-dm-automation-kjkx.onrender.com']
 
 
