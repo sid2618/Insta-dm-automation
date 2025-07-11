@@ -30,13 +30,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    'insta-dm-automation-kjkx.onrender.com',  # replace with actual render domain if known
-]
 
-CSRF_TRUSTED_ORIGINS = ['https://insta-dm-automation-kjkx.onrender.com']
 
 
 
@@ -90,7 +84,7 @@ WSGI_APPLICATION = 'Insta.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 
-
+# localhost for production
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -101,6 +95,14 @@ DATABASES = {
         'PORT': os.getenv("DB_PORT"),
     }
 }
+
+# database for localhost 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -151,7 +153,14 @@ FB_APP_SECRET= os.getenv("FB_APP_SECRET")
 FB_REDIRECT_URI = 'https://insta-dm-automation-kjkx.onrender.com/facebook/callback/'
 
 
-CSRF_TRUSTED_ORIGINS = ["https://insta-dm-automation-kjkx.onrender.com"]
+CSRF_TRUSTED_ORIGINS = ["https://insta-dm-automation-kjkx.onrender.com" ]
+
+ALLOWED_HOSTS = [   
+
+    'insta-dm-automation-kjkx.onrender.com'     
+]
+
+
 
 
 LOGIN_URL = '/login/'

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,25 +19,36 @@
 
     .nav-links {
       margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
 
-    .nav-links a, .nav-links button {
+    .btn-outline-dark {
+      border: 1px solid #343a40;
+      color: #343a40;
+      background-color: transparent;
+      padding: 6px 12px;
+      border-radius: 4px;
       text-decoration: none;
-      color: #007bff;
-      background: none;
-      border: none;
-      padding: 0;
-      font: inherit;
-      cursor: pointer;
-      margin: 0 0.5rem;
+      transition: background-color 0.2s ease;
+      display: inline-block;
     }
 
-    .nav-links a:hover, .nav-links button:hover {
-      text-decoration: underline;
+    .btn-outline-dark:hover {
+      background-color: black;
+      color: white;
     }
 
     form {
       display: inline;
+    }
+
+    form button.btn-outline-dark {
+      font: inherit;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -47,27 +59,20 @@
   {% if user.is_authenticated %}
     <p>Hello, {{ user.username }}!</p>
     <div class="nav-links">
-      <a href="{% url 'dashboard' %}">Go to Dashboard</a> |
+      <a href="{% url 'dashboard' %}" class="btn-outline-dark">Go to Dashboard</a>  |
       <form method="post" action="{% url 'logout' %}">
         {% csrf_token %}
-        <button type="submit">Logout</button>
+        <button type="submit" class="btn-outline-dark">Logout</button>
       </form>
     </div>
   {% else %}
     <div class="nav-links">
-      <a href="{% url 'login' %}">Login</a> |
-      <a href="{% url 'signup' %}">Sign up</a>
+      <a href="{% url 'login' %}" class="btn-outline-dark">Login</a>  | 
+      <a href="{% url 'signup' %}" class="btn-outline-dark">Sign up</a>
     </div>
   {% endif %}
 
 </body>
 </html>
-
-
-
-
-
-
-
 
 
